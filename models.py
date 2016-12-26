@@ -44,9 +44,10 @@ class Ship(Model):
             self.direction = "UP"
 
 class Enemy(Model):
-    def __init__(self, x, y):
+    def __init__(self, world,  x, y):
         self.x = x
         self.y = y
+        self.world = world
 
     def animate(self, delta):
         self.x -= 5
@@ -76,9 +77,12 @@ class World:
         for bullet in self.bullet:
             bullet.animate(delta)
 
+        self.check_enemy_dead()
+
         if self.is_game_over() and self.game_over == False:
             self.game_over = True
             self.starwarGameWindow.explode_sprite.set_position(self.ship.x, self.ship.y)
+
 
     def on_key_press(self, key, key_modifiers):
         if self.game_over == False:
@@ -88,8 +92,18 @@ class World:
                 self.bullet.append(Bullet(self.ship.x, self.ship.y))
                 self.starwarGameWindow.update_bullet_sprite()
 
+    def check_enemy_dead(self):
+        area = 60
+        for enemy in self.enemy:
+            for bullet in self.bullet:
+                if (enemy.x >= bullet.x - area and enemy.x <= bullet.x + area) and (enemy.y >= bullet.y - area and enemy.y <= bullet.y + area):
+                    self.enemy.remove(enemy)
+                    self.bullet.remove(bullet)
+                    self.starwarGameWindow.update_enemy_sprite()
+                    self.starwarGameWindow.update_bullet_sprite()
+
     def spawn_enemy(self):
-        self.enemy.append(Enemy(1000, math.ceil(random()*600)))
+        self.enemy.append(Enemy(self, 1000, math.ceil(random()*600)))
         self.starwarGameWindow.update_enemy_sprite()
 
     def is_game_over(self):
