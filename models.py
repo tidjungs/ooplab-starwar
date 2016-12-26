@@ -65,6 +65,7 @@ class World:
         self.bullet = []
         self.start = 0
         self.game_over = False
+        self.score = 0
 
     def animate(self, delta):
         if self.start % 100 == 0:
@@ -105,6 +106,7 @@ class World:
                     self.bullet.remove(bullet)
                     self.starwarGameWindow.update_enemy_sprite()
                     self.starwarGameWindow.update_bullet_sprite()
+                    self.score += 10
 
     def spawn_enemy(self):
         self.enemy.append(Enemy(self, 1000, math.ceil(random()*600)))
