@@ -1,4 +1,6 @@
 import arcade
+import arcade.key
+
 from models import World, Ship
 
 SCREEN_WIDTH = 1000
@@ -33,6 +35,9 @@ class StarwarGameWindow(arcade.Window):
 
     def animate(self, delta):
         self.world.animate(delta)
+
+    def on_key_press(self, key, key_modifiers):
+        self.world.on_key_press(key, key_modifiers)
 
 if __name__ == '__main__':
     window = StarwarGameWindow(SCREEN_WIDTH, SCREEN_HEIGHT)
