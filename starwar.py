@@ -29,13 +29,18 @@ class StarwarGameWindow(arcade.Window):
         self.world = World(self, width, height)
         self.ship_sprite = ModelSprite('images/ship.png',model=self.world.ship)
         self.update_enemy_sprite()
-
+        self.update_bullet_sprite()
         self.explode_sprite = arcade.Sprite('images/explode.png')
 
     def update_enemy_sprite(self):
         self.enemy_sprites = []
         for enemy in self.world.enemy:
             self.enemy_sprites.append(ModelSprite('images/enemy.png',model=enemy))
+
+    def update_bullet_sprite(self):
+        self.bullet_sprites = []
+        for bullet in self.world.bullet:
+            self.bullet_sprites.append(ModelSprite('images/bullet.png',model=bullet))
 
     def on_draw(self):
         arcade.start_render()
@@ -45,10 +50,10 @@ class StarwarGameWindow(arcade.Window):
             self.draw_explode()
 
         for sprite in self.enemy_sprites:
-            if self.world.enemy:
-                sprite.draw()
+            sprite.draw()
 
-
+        for bullet_sprite in self.bullet_sprites:
+            bullet_sprite.draw()
 
     def animate(self, delta):
         self.world.animate(delta)
