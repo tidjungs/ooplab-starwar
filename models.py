@@ -1,4 +1,6 @@
 import arcade.key
+import math
+from random import random
 
 class Model:
     def __init__(self, world, x, y):
@@ -50,7 +52,7 @@ class World:
 
         self.ship = Ship(self, 100, 100)
         self.enemy = []
-        self.enemy.append(Enemy(self, 1000, 100))
+        self.enemy.append(Enemy(self, 1000, math.ceil(random()*600)))
         self.start = 0
 
     def animate(self, delta):
@@ -66,5 +68,5 @@ class World:
             self.ship.switch_direction()
 
     def spawn_enemy(self):
-        self.enemy.append(Enemy(self, 1000, 100))
+        self.enemy.append(Enemy(self, 1000, math.ceil(random()*600)))
         self.starwarGameWindow.update_enemy_sprite()
