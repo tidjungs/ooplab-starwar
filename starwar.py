@@ -26,15 +26,22 @@ class StarwarGameWindow(arcade.Window):
 
         arcade.set_background_color(arcade.color.BLACK)
 
-        self.world = World(width, height)
+        self.world = World(self, width, height)
         self.ship_sprite = ModelSprite('images/ship.png',model=self.world.ship)
-        self.enemy_sprite = ModelSprite('images/enemy.png',model=self.world.enemy)
+        self.update_enemy_sprite()
+
+    def update_enemy_sprite(self):
+        self.enemy_sprites = []
+        for enemy in self.world.enemy:
+            self.enemy_sprites.append(ModelSprite('images/enemy.png',model=enemy))
 
     def on_draw(self):
         arcade.start_render()
         self.ship_sprite.draw()
-        if self.world.enemy:
-            self.enemy_sprite.draw()
+
+        for sprite in self.enemy_sprites:
+            if self.world.enemy:
+                sprite.draw()
 
     def animate(self, delta):
         self.world.animate(delta)

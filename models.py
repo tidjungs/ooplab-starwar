@@ -43,17 +43,28 @@ class Enemy(Model):
 
 
 class World:
-    def __init__(self, width, height):
+    def __init__(self, starwarGameWindow, width, height):
         self.width = width
         self.height = height
+        self.starwarGameWindow = starwarGameWindow
 
         self.ship = Ship(self, 100, 100)
-        self.enemy = Enemy(self, 1000, 100)
+        self.enemy = []
+        self.enemy.append(Enemy(self, 1000, 100))
+        self.start = 0
 
     def animate(self, delta):
+        if self.start % 50 == 0:
+            self.spawn_enemy()
+        self.start += 1
         self.ship.animate(delta)
-        self.enemy.animate(delta)
+        for enemy in self.enemy:
+            enemy.animate(delta)
 
     def on_key_press(self, key, key_modifiers):
         if key == arcade.key.SPACE:
             self.ship.switch_direction()
+
+    def spawn_enemy(self):
+        self.enemy.append(Enemy(self, 1000, 100))
+        self.starwarGameWindow.update_enemy_sprite()
