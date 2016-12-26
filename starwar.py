@@ -28,10 +28,13 @@ class StarwarGameWindow(arcade.Window):
 
         self.world = World(width, height)
         self.ship_sprite = ModelSprite('images/ship.png',model=self.world.ship)
+        self.enemy_sprite = ModelSprite('images/enemy.png',model=self.world.enemy)
 
     def on_draw(self):
         arcade.start_render()
         self.ship_sprite.draw()
+        if self.world.enemy:
+            self.enemy_sprite.draw()
 
     def animate(self, delta):
         self.world.animate(delta)
