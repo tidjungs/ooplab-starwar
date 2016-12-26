@@ -1,5 +1,5 @@
 import arcade
-from models import Ship
+from models import World, Ship
 
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 600
@@ -10,7 +10,7 @@ class StarwarGameWindow(arcade.Window):
 
         arcade.set_background_color(arcade.color.BLACK)
 
-        self.ship = Ship(100,100)
+        self.world = World(width, height)
         self.ship_sprite = arcade.Sprite('images/ship.png')
 
     def on_draw(self):
@@ -18,10 +18,8 @@ class StarwarGameWindow(arcade.Window):
         self.ship_sprite.draw()
 
     def animate(self, delta):
-        ship = self.ship
-
-        ship.animate(delta)
-        self.ship_sprite.set_position(ship.x, ship.y)
+        self.world.animate(delta)
+        self.ship_sprite.set_position(self.world.ship.x, self.world.ship.y)
 
 if __name__ == '__main__':
     window = StarwarGameWindow(SCREEN_WIDTH, SCREEN_HEIGHT)
