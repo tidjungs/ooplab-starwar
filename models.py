@@ -59,7 +59,7 @@ class World:
         self.width = width
         self.height = height
         self.starwarGameWindow = starwarGameWindow
-
+        self.delay = 0
         self.ship = Ship(self, 100, 100, 80)
         self.enemy = []
         self.bullet = []
@@ -83,14 +83,18 @@ class World:
             self.game_over = True
             self.starwarGameWindow.explode_sprite.set_position(self.ship.x, self.ship.y)
 
+        if self.delay > 0:
+            self.delay -= 1
 
     def on_key_press(self, key, key_modifiers):
         if self.game_over == False:
             if key == arcade.key.SPACE:
                 self.ship.switch_direction()
             elif key == arcade.key.ENTER:
-                self.bullet.append(Bullet(self.ship.x, self.ship.y))
-                self.starwarGameWindow.update_bullet_sprite()
+                if self.delay == 0:
+                    self.bullet.append(Bullet(self.ship.x, self.ship.y))
+                    self.starwarGameWindow.update_bullet_sprite()
+                    self.delay = 20
 
     def check_enemy_dead(self):
         area = 60
