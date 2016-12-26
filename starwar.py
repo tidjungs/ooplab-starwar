@@ -37,7 +37,8 @@ class StarwarGameWindow(arcade.Window):
 
     def on_draw(self):
         arcade.start_render()
-        self.ship_sprite.draw()
+        if self.world.game_over == False:
+            self.ship_sprite.draw()
 
         for sprite in self.enemy_sprites:
             if self.world.enemy:
