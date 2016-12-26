@@ -9,10 +9,11 @@ class Model:
         self.y = y
 
 class Ship(Model):
-    def __init__(self, world, x, y):
+    def __init__(self, world, x, y, area):
         self.world = world
         self.x = x
         self.y = y
+        self.area = area
         self.direction = "UP"
 
     def animate(self, delta):
@@ -49,7 +50,7 @@ class World:
         self.height = height
         self.starwarGameWindow = starwarGameWindow
 
-        self.ship = Ship(self, 100, 100)
+        self.ship = Ship(self, 100, 100, 80)
         self.enemy = []
         self.start = 0
         self.game_over = False
@@ -62,8 +63,9 @@ class World:
         for enemy in self.enemy:
             enemy.animate(delta)
 
-        if self.is_game_over():
+        if self.is_game_over() and self.game_over == False:
             self.game_over = True
+            self.starwarGameWindow.explode_sprite.set_position(self.ship.x, self.ship.y)
 
     def on_key_press(self, key, key_modifiers):
         if key == arcade.key.SPACE:
@@ -75,7 +77,8 @@ class World:
 
     def is_game_over(self):
         ship = self.ship
+        area = self.ship.area
         for enemy in self.enemy:
-            if (ship.x >= enemy.x - 10 or ship.x == enemy.x + 10) and (ship.y >= enemy.y - 10 or ship.y == enemy.y + 10):
+            if (ship.x >= enemy.x - area and ship.x <= enemy.x + area) and (ship.y >= enemy.y - area and ship.y <= enemy.y + area):
                 return True
         return False

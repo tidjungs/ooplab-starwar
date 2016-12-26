@@ -30,6 +30,8 @@ class StarwarGameWindow(arcade.Window):
         self.ship_sprite = ModelSprite('images/ship.png',model=self.world.ship)
         self.update_enemy_sprite()
 
+        self.explode_sprite = arcade.Sprite('images/explode.png')
+
     def update_enemy_sprite(self):
         self.enemy_sprites = []
         for enemy in self.world.enemy:
@@ -39,16 +41,24 @@ class StarwarGameWindow(arcade.Window):
         arcade.start_render()
         if self.world.game_over == False:
             self.ship_sprite.draw()
+        else:
+            self.draw_explode()
 
         for sprite in self.enemy_sprites:
             if self.world.enemy:
                 sprite.draw()
+
+
 
     def animate(self, delta):
         self.world.animate(delta)
 
     def on_key_press(self, key, key_modifiers):
         self.world.on_key_press(key, key_modifiers)
+
+    def draw_explode(self):
+        arcade.start_render()
+        self.explode_sprite.draw()
 
 if __name__ == '__main__':
     window = StarwarGameWindow(SCREEN_WIDTH, SCREEN_HEIGHT)
